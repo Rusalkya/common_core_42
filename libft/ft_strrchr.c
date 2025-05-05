@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:41:56 by clfouger          #+#    #+#             */
-/*   Updated: 2025/04/28 13:03:12 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:07:15 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strrchr(const char *s, int c)
 		i++;
 	while (i >= 0)
 	{
-		if (s[i] == (char)c)
+		if (s[i] == (unsigned char)c)
 			return ((char *)(s + i));
 		i--;
 	}
