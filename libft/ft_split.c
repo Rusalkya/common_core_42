@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 10:09:12 by clfouger          #+#    #+#             */
-/*   Updated: 2025/05/01 12:11:15 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:33:00 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,3 +98,57 @@ char	**ft_split(char const *s, char c)
 	tab[i] = NULL;
 	return (tab);
 }
+#include <stdio.h>
+#include <stdlib.h>
+
+char	**ft_split(char const *s, char c); // Assure-toi que ft_split est bien déclarée
+
+void	print_split(char **split)
+{
+	int	i = 0;
+	if (!split)
+	{
+		printf("NULL returned\n");
+		return;
+	}
+	while (split[i])
+	{
+		printf("split[%d] = \"%s\"\n", i, split[i]);
+		i++;
+	}
+	// libère la mémoire après test
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+/*
+#include <stdio.h>
+
+int	main(void)
+{
+	char **res;
+
+	printf("Test 1 : \"hello world\"\n");
+	res = ft_split("hello world", ' ');
+	print_split(res);
+
+	printf("\nTest 2 : \"--a--b---c---\"\n");
+	res = ft_split("--a--b---c---", '-');
+	print_split(res);
+
+	printf("\nTest 3 : \"\"\n");
+	res = ft_split("", ' ');
+	print_split(res);
+
+	printf("\nTest 4 : \"     spaced words here     \"\n");
+	res = ft_split("     spaced words here     ", ' ');
+	print_split(res);
+
+	printf("\nTest 5 : \"no_separator\"\n");
+	res = ft_split("no_separator", ',');
+	print_split(res);
+
+	return (0);
+}
+*/

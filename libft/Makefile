@@ -6,7 +6,7 @@
 #    By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/30 11:11:20 by clfouger          #+#    #+#              #
-#    Updated: 2025/05/06 11:02:09 by clfouger         ###   ########.fr        #
+#    Updated: 2025/05/06 12:32:42 by clfouger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ BONUS_SRC = ft_lstadd_back_bonus.c \
             ft_lstnew_bonus.c \
 			ft_lstsize_bonus.c \
 			ft_lstdelone_bonus.c \
-			ft_lastadd_front_bonus.c
+			ft_lstadd_front_bonus.c
 			
 BONUS_OBJ = $(BONUS_SRC:.c=.o)
 
