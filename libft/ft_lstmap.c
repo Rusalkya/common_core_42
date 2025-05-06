@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:38:38 by clfouger          #+#    #+#             */
-/*   Updated: 2025/05/05 13:09:16 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:25:06 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		ncontent = ft_lstnew(content);
 		if (!ncontent)
 		{
+			del(content);
 			ft_lstclear(&nlst, del);
 			return (NULL);
 		}
