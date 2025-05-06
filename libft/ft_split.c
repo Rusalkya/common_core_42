@@ -98,30 +98,7 @@ char	**ft_split(char const *s, char c)
 	tab[i] = NULL;
 	return (tab);
 }
-#include <stdio.h>
-#include <stdlib.h>
 
-char	**ft_split(char const *s, char c); // Assure-toi que ft_split est bien déclarée
-
-void	print_split(char **split)
-{
-	int	i = 0;
-	if (!split)
-	{
-		printf("NULL returned\n");
-		return;
-	}
-	while (split[i])
-	{
-		printf("split[%d] = \"%s\"\n", i, split[i]);
-		i++;
-	}
-	// libère la mémoire après test
-	i = 0;
-	while (split[i])
-		free(split[i++]);
-	free(split);
-}
 /*
 #include <stdio.h>
 
