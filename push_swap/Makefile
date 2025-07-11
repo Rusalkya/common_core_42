@@ -1,10 +1,23 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/01 10:21:53 by clfouger          #+#    #+#              #
+#    Updated: 2025/07/01 10:21:54 by clfouger         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = push_swap
 
 SRCS_DIRS = . moves parsing
 SRC_FILES =	main.c push_swap.c stack.c sort.c \
             radix.c push_little_swap.c \
-            $(wildcard moves/*.c) \
-            $(wildcard parsing/*.c)
+            moves/push.c moves/revrotate.c moves/rotate.c moves/swap.c \
+            parsing/parsing.c parsing/parsing_check.c parsing/parsing_utils.c
+
 
 OBJS = $(SRC_FILES:.c=.o)
 
