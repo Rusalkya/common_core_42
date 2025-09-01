@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:30:00 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/01 08:48:21 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:52:54 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_env
 	long			time_to_sleep;
 	int				max_meals;
 	long			start_ms;
+	int				stop_sim;
+	pthread_mutex_t stop_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t *forks;
 }	t_env;
@@ -42,21 +44,19 @@ typedef struct s_philo
 	int			right_fork;
 }	t_philo;
 
-/* parsing.c */
 int		error_usage(char *prog);
 int		init_env(t_env *env, int argc, char **argv);
 t_philo	*init_philos(t_env *env);
 
-/* routine.c */
 void	*philo_routine(void *arg);
 
-/* utils.c */
+void	*monitor_routine(void *arg);
+
 long	now_ms(void);
 long	since_start_ms(t_env *env);
 void	msleep(long ms);
 void	log_state(t_philo *p, const char *msg);
 
-/* clean.c */
 void	cleanup(t_env *env, t_philo *philos);
 
 #endif

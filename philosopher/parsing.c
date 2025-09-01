@@ -6,15 +6,15 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:31:45 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/01 08:45:38 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:51:22 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	error_usage()
+int	error_usage(void)
 {
-	fprintf(stderr,"error: entrer les arguments demandes\n");
+	fprintf(stderr, "error: entrer les arguments demandes\n");
 	return (1);
 }
 

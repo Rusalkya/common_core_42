@@ -6,17 +6,25 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:09:57 by clfouger          #+#    #+#             */
-/*   Updated: 2025/08/31 14:02:45 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:51:05 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static int	error_usage(char *prog)
+{
+	printf("Usage: %s nb_philo time_die time_eat time_sleep [max_meals]\n",
+		prog);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
-	t_env	env;
-	t_philo	*philos;
-	int		i;
+	t_env		env;
+	t_philo		*philos;
+	pthread_t	monitor;
+	int			i;
 
 	if (argc < 5)
 		return (error_usage(argv[0]));
@@ -33,10 +41,16 @@ int	main(int argc, char **argv)
 			return (free(philos), 1);
 		i++;
 	}
+	if (pthread_create(&monitor, NULL, monitor_routine, philos) != 0)
+		return (free(philos), 1);
+	pthread_join(monitor, NULL);
 	i = 0;
 	while (i < env.nb_philo)
 	{
 		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
+	free(philos);
+	free(env.forks);
+	return (0);
 }
