@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:33:06 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/03 16:08:51 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:20:31 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ long	since_start_ms(t_env *env)
 {
 	return (now_ms() - env->start_ms);
 }
-
-// void	msleep(long ms)
-// {
-// 	if (ms <= 0)
-// 		return ;
-// 	usleep(ms * 1000);
-// }
 
 void	log_state(t_philo *p, const char *msg)
 {
