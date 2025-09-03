@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:30:00 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/01 13:52:54 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/03 10:22:18 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,23 @@ typedef struct s_env
 	int				max_meals;
 	long			start_ms;
 	int				stop_sim;
-	pthread_mutex_t stop_mutex;
+	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t *forks;
+	pthread_mutex_t	*forks;
 }	t_env;
 
 typedef struct s_philo
 {
-	int			id;
-	pthread_t	thread;
-	long		last_meal;
-	int			meals_eaten;
-	t_env		*env;
-	int			left_fork;
-	int			right_fork;
+	int				id;
+	pthread_t		thread;
+	long			last_meal;
+	int				meals_eaten;
+	t_env			*env;
+	pthread_mutex_t	meal_mutex;
+	int				left_fork;
+	int				right_fork;
 }	t_philo;
 
-int		error_usage(char *prog);
 int		init_env(t_env *env, int argc, char **argv);
 t_philo	*init_philos(t_env *env);
 

@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:33:06 by clfouger          #+#    #+#             */
-/*   Updated: 2025/08/26 10:06:54 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/02 15:02:41 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,13 @@ void	msleep(long ms)
 
 void	log_state(t_philo *p, const char *msg)
 {
+	long	timestamp;
+
 	pthread_mutex_lock(&p->env->print_mutex);
-	printf("%ld %d %s\n", since_start_ms(p->env), p->id, msg);
+	if (!p->env->stop_sim || msg[0] == 'd')
+	{
+		timestamp = now_ms() - p->env->start_ms;
+		printf("%ld %d %s\n", timestamp, p->id, msg);
+	}
 	pthread_mutex_unlock(&p->env->print_mutex);
 }
