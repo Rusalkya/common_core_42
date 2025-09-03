@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:30:00 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/03 10:22:18 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:07:58 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	*monitor_routine(void *arg);
 
 long	now_ms(void);
 long	since_start_ms(t_env *env);
-void	msleep(long ms);
+void    msleep(long ms, t_env *env);
+
 void	log_state(t_philo *p, const char *msg);
 
 void	cleanup(t_env *env, t_philo *philos);

@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:26:46 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/03 10:45:43 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:07:35 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	stop_simulation(t_env *env)
 
 static int	check_death(t_philo *p)
 {
-	long	last_meal;
+	long last_meal;
 
 	pthread_mutex_lock(&p->meal_mutex);
 	last_meal = p->last_meal;
@@ -33,6 +33,7 @@ static int	check_death(t_philo *p)
 		return (1);
 	}
 	return (0);
+
 }
 
 void	*monitor_routine(void *arg)
