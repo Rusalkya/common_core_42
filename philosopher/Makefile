@@ -6,7 +6,7 @@
 #    By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/25 10:09:54 by clfouger          #+#    #+#              #
-#    Updated: 2025/09/01 13:43:13 by clfouger         ###   ########.fr        #
+#    Updated: 2025/09/04 15:21:02 by clfouger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,3 +37,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+

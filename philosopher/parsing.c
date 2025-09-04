@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:31:45 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/03 10:40:55 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:29:47 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,3 @@ t_philo	*init_philos(t_env *env)
 	}
 	return (philos);
 }
-
-
-
-
