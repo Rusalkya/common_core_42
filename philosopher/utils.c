@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:33:06 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/04 16:09:39 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:58:22 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,6 @@ long	since_start_ms(t_env *env)
 	return (now_ms() - env->start_ms);
 }
 
-// void	msleep(long ms, t_env *env)
-// {
-// 	long	start;
-// 	long	elapsed;
-
-// 	start = now_ms();
-// 	while (!sim_stopped(env))
-// 	{
-// 		elapsed = now_ms() - start;
-// 		if (elapsed >= ms)
-// 			break ;
-// 		usleep(200);
-// 	}
-// }
-
 void	msleep(long ms, t_env *env)
 {
 	long	start;
@@ -53,19 +38,6 @@ void	msleep(long ms, t_env *env)
 	}
 }
 
-void	log_state(t_philo *p, const char *msg)
-{
-	long	timestamp;
-
-	pthread_mutex_lock(&p->env->print_mutex);
-	if (!p->env->stop_sim || msg[0] == 'd')
-	{
-		timestamp = now_ms() - p->env->start_ms;
-		printf("%ld %d %s\n", timestamp, p->id, msg);
-	}
-	pthread_mutex_unlock(&p->env->print_mutex);
-}
-
 int	sim_stopped(t_env *env)
 {
 	int	stopped;
@@ -74,4 +46,10 @@ int	sim_stopped(t_env *env)
 	stopped = env->stop_sim;
 	pthread_mutex_unlock(&env->stop_mutex);
 	return (stopped);
+}
+
+void	cleanup(t_env *env, t_philo *philos)
+{
+	pthread_mutex_destroy(&env->print_mutex);
+	free(philos);
 }

@@ -6,11 +6,43 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:31:45 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/03 16:29:47 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:57:48 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void	log_state(t_philo *p, const char *state)
+{
+	long	timestamp;
+
+	pthread_mutex_lock(&p->env->print_mutex);
+	if (!sim_stopped(p->env))
+	{
+		timestamp = now_ms() - p->env->start_ms;
+		if (!ft_strcmp(state, "has taken a fork"))
+			printf("%ld %d %s🍴 %s%s\n", timestamp, p->id, PURPLE, state, RESET);
+		else if (!ft_strcmp(state, "is eating"))
+			printf("%ld %d %s😋 %s%s\n", timestamp, p->id, ORANGE, state, RESET);
+		else if (!ft_strcmp(state, "is sleeping"))
+			printf("%ld %d %s💤 %s%s\n", timestamp, p->id, GREEN, state, RESET);
+		else if (!ft_strcmp(state, "is thinking"))
+			printf("%ld %d %s🧠 %s%s\n", timestamp, p->id, BLUE, state, RESET);
+		else if (!ft_strcmp(state, "died"))
+			printf("%ld %d %s💀 %s%s\n", timestamp, p->id, WHITE, state, RESET);
+	}
+	pthread_mutex_unlock(&p->env->print_mutex);
+}
 
 static long	ato_l(const char *s)
 {
@@ -24,22 +56,6 @@ static long	ato_l(const char *s)
 		exit(1);
 	}
 	return (v);
-}
-
-static int	init_forks(t_env *env)
-{
-	int	i;
-
-	env->forks = malloc(sizeof(pthread_mutex_t) * env->nb_philo);
-	if (!env->forks)
-		return (1);
-	i = 0;
-	while (i < env->nb_philo)
-	{
-		pthread_mutex_init(&env->forks[i], NULL);
-		i++;
-	}
-	return (0);
 }
 
 int	init_env(t_env *env, int argc, char **argv)

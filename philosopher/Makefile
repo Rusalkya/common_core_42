@@ -6,7 +6,7 @@
 #    By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/25 10:09:54 by clfouger          #+#    #+#              #
-#    Updated: 2025/09/04 15:21:02 by clfouger         ###   ########.fr        #
+#    Updated: 2025/09/05 17:12:39 by clfouger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME        = philo
 CC          = cc
 CFLAGS      = -Wall -Wextra -Werror -pthread
 
-SRCS        = main.c parsing.c routine.c utils.c clean.c monitor.c
+SRCS        = main.c parsing.c routine.c utils.c monitor.c fourchette.c
 OBJS        = $(SRCS:.c=.o)
 
 INCS        = philo.h

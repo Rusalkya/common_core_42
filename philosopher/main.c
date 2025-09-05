@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:09:57 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/04 11:46:49 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/05 10:00:38 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv)
 	t_philo		*philos;
 	pthread_t	monitor;
 
-	if (argc < 5)
+	if (argc < 5 || argc > 6)
 		return (error_usage(argv[0]));
 	if (init_and_start(&env, &philos, argc, argv) != 0)
 		return (1);

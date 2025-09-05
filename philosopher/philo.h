@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:30:00 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/03 16:35:10 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/05 15:32:17 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+
+# define RESET "\033[0m"
+# define PURPLE "\033[35m"
+# define ORANGE "\033[38;5;208m"
+# define GREEN "\033[32m"
+# define BLUE "\033[38;5;117m"
+# define WHITE "\033[97m"
 
 typedef struct s_env
 {
@@ -55,5 +62,13 @@ void				msleep(long ms, t_env *env);
 int					sim_stopped(t_env *env);
 void				log_state(t_philo *p, const char *msg);
 void				cleanup(t_env *env, t_philo *philos);
+int					ft_strcmp(const char *s1, const char *s2);
+void				*handle_one_philo(t_philo *p);
+
+// fourchette.c
+int					lock_one_fork(t_philo *p, int fork_id);
+int					take_forks(t_philo *p);
+int					init_forks(t_env *env);
+void				release_forks(t_philo *p);
 
 #endif
