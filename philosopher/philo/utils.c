@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:33:06 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/05 16:58:22 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:46:23 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ int	sim_stopped(t_env *env)
 	return (stopped);
 }
 
-void	cleanup(t_env *env, t_philo *philos)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	pthread_mutex_destroy(&env->print_mutex);
-	free(philos);
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

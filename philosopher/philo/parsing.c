@@ -6,28 +6,20 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:31:45 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/05 16:57:48 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:43:51 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
 void	log_state(t_philo *p, const char *state)
 {
 	long	timestamp;
+	int		should_print;
 
 	pthread_mutex_lock(&p->env->print_mutex);
-	if (!sim_stopped(p->env))
+	should_print = !sim_stopped(p->env);
+	if (should_print || !ft_strcmp(state, "died"))
 	{
 		timestamp = now_ms() - p->env->start_ms;
 		if (!ft_strcmp(state, "has taken a fork"))
@@ -40,6 +32,7 @@ void	log_state(t_philo *p, const char *state)
 			printf("%ld %d %s🧠 %s%s\n", timestamp, p->id, BLUE, state, RESET);
 		else if (!ft_strcmp(state, "died"))
 			printf("%ld %d %s💀 %s%s\n", timestamp, p->id, WHITE, state, RESET);
+		fflush(stdout);
 	}
 	pthread_mutex_unlock(&p->env->print_mutex);
 }

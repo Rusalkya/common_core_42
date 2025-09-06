@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:30:00 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/05 15:32:17 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:46:08 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,31 @@ typedef struct s_philo
 	int				right_fork;
 }					t_philo;
 
+//parsing.c
 int					init_env(t_env *env, int argc, char **argv);
 t_philo				*init_philos(t_env *env);
-void				*philo_routine(void *arg);
+void				log_state(t_philo *p, const char *msg);
+
+// monitor.c
 void				*monitor_routine(void *arg);
+
+// utils.c
+int					sim_stopped(t_env *env);
+void				msleep(long ms, t_env *env);
 long				now_ms(void);
 long				since_start_ms(t_env *env);
-void				msleep(long ms, t_env *env);
-int					sim_stopped(t_env *env);
-void				log_state(t_philo *p, const char *msg);
-void				cleanup(t_env *env, t_philo *philos);
 int					ft_strcmp(const char *s1, const char *s2);
+
+// main.c
+int					main(int argc, char **argv);
+
+// clean.c
+void				cleanup_all(t_env *env, t_philo *philos);
+void				cleanup(t_env *env, t_philo *philos);
+
+// routine.c
 void				*handle_one_philo(t_philo *p);
+void				*philo_routine(void *arg);
 
 // fourchette.c
 int					lock_one_fork(t_philo *p, int fork_id);

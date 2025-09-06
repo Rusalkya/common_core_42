@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:14:39 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/05 15:42:39 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:42:41 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,57 +82,3 @@ void	release_forks(t_philo *p)
 		pthread_mutex_unlock(&p->env->forks[b]);
 	}
 }
-
-// // static void	take_forks(t_philo *p)
-// // {
-// // 	int	a;
-// // 	int	b;
-
-// // 	a = p->left_fork;
-// // 	b = p->right_fork;
-// // 	if (a < b)
-// // 	{
-// // 		pthread_mutex_lock(&p->env->forks[a]);
-// // 		log_state(p, "has taken a fork");
-// // 		pthread_mutex_lock(&p->env->forks[b]);
-// // 		log_state(p, "has taken a fork");
-// // 	}
-// // 	else
-// // 	{
-// // 		pthread_mutex_lock(&p->env->forks[b]);
-// // 		log_state(p, "has taken a fork");
-// // 		pthread_mutex_lock(&p->env->forks[a]);
-// // 		log_state(p, "has taken a fork");
-// // 	}
-// // }
-
-// static int	take_forks(t_philo *p)
-// {
-// 	int	a = p->left_fork;
-// 	int	b = p->right_fork;
-
-// 	if (a < b)
-// 	{
-// 		pthread_mutex_lock(&p->env->forks[a]);
-// 		if (sim_stopped(p->env))
-// 			return (pthread_mutex_unlock(&p->env->forks[a]), 0);
-// 		log_state(p, "has taken a fork");
-// 		pthread_mutex_lock(&p->env->forks[b]);
-// 	}
-// 	else
-// 	{
-// 		pthread_mutex_lock(&p->env->forks[b]);
-// 		if (sim_stopped(p->env))
-// 			return (pthread_mutex_unlock(&p->env->forks[b]), 0);
-// 		log_state(p, "has taken a fork");
-// 		pthread_mutex_lock(&p->env->forks[a]);
-// 	}
-// 	if (sim_stopped(p->env))
-// 	{
-// 		pthread_mutex_unlock(&p->env->forks[a]);
-// 		pthread_mutex_unlock(&p->env->forks[b]);
-// 		return (0);
-// 	}
-// 	log_state(p, "has taken a fork");
-// 	return (1);
-// }

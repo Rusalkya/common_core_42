@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:09:57 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/05 10:00:38 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:37:09 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	main(int argc, char **argv)
 	if (pthread_create(&monitor, NULL, monitor_routine, philos) != 0)
 		return (free(philos), 1);
 	join_threads(&env, philos, monitor);
-	free(philos);
-	free(env.forks);
+	cleanup_all(&env, philos);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:32:06 by clfouger          #+#    #+#             */
-/*   Updated: 2025/09/05 15:35:11 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:41:48 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,30 @@ static void	philo_rest(t_philo *p)
 		log_state(p, "is thinking");
 }
 
+static void	philo_loop(t_philo *p)
+{
+	int	has_forks;
+
+	has_forks = 0;
+	while (!sim_stopped(p->env) && (p->env->max_meals == -1
+			|| p->meals_eaten < p->env->max_meals))
+	{
+		if (take_forks(p))
+			has_forks = 1;
+		if (sim_stopped(p->env))
+		{
+			if (has_forks)
+				release_forks(p);
+			break ;
+		}
+		philo_eat(p);
+		has_forks = 0;
+		if (sim_stopped(p->env))
+			break ;
+		philo_rest(p);
+	}
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*p;
@@ -48,16 +72,6 @@ void	*philo_routine(void *arg)
 		return (handle_one_philo(p));
 	if (p->id % 2 == 0)
 		usleep(2000);
-	while (!sim_stopped(p->env) && (p->env->max_meals == -1
-			|| p->meals_eaten < p->env->max_meals))
-	{
-		take_forks(p);
-		if (sim_stopped(p->env))
-			break ;
-		philo_eat(p);
-		if (sim_stopped(p->env))
-			break ;
-		philo_rest(p);
-	}
+	philo_loop(p);
 	return (NULL);
 }
