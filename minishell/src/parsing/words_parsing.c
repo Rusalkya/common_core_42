@@ -6,11 +6,11 @@
 /*   By: clfouger <clfouger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 09:38:19 by clfouger          #+#    #+#             */
-/*   Updated: 2025/08/16 10:37:31 by clfouger         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:50:03 by clfouger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static bool	have_a_space(char *str)
 {
@@ -26,27 +26,44 @@ static bool	have_a_space(char *str)
 	return (false);
 }
 
-static void	split_tokens(t_command lst_cmd, char *str_cmd)
+void fill_args(t_token **tokens, t_command *cmd)
 {
-	t_token *new_token;
-	t_token *temp;
-	char **strs;
-	int i;
+    t_token *tok;
+    int count = 0;
+    int i = 0;
 
-	new_token = (NULL);
-	strs = ft_split(str_cmd, ' ');
-	if (!strs)
-		return ;
-	lst_cmd->command = ft_strdup(strs[0]);
-	if (strs[1])
-		new_token = lst_new_token(ft_strdup(strs[1]), NULL, WORD, DEFAULT);
-	temp = new_token;
-	i = 1;
-	while (strs[i++])
-		lst_add_back_token(&new_token, lst_new_token(ft_strdup(strs[i]), NULL,
-				WORD, DEFAULT));
-	lst_add_back_token(&new_token, lst_new_token(NULL, NULL, END, DEFAULT));
-	fill_args(&new_token, last_cmd);
-	lstclear_token(&temp, &free_ptr);
-	free_str_tab(strs);
+    tok = *tokens;
+    while (tok && tok->type != END)
+    {
+        count++;
+        tok = tok->next;
+    }
+
+    cmd->args = malloc(sizeof(char *) * (count + 2)); // command + args + NULL
+    if (!cmd->args)
+        return;
+
+    cmd->args[0] = ft_strdup(cmd->command); // ex: "ls"
+    tok = *tokens;
+    i = 1;
+    while (tok && tok->type != END)
+    {
+        cmd->args[i++] = ft_strdup(tok->str);
+        tok = tok->next;
+    }
+    cmd->args[i] = NULL;
+}
+
+
+void free_str_tab(char **strs)
+{
+    int i = 0;
+    if (!strs)
+        return;
+    while (strs[i])
+    {
+        free(strs[i]);
+        i++;
+    }
+    free(strs);
 }
