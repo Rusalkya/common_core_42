@@ -1,0 +1,355 @@
+# Valgrind Suppression File for cub3D
+# Usage: valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind.supp ./cub3d_bonus map.cub
+
+# ============================================================================
+# MLX Mouse Functions - Hide/Show/Move
+# ============================================================================
+
+{
+   mlx_mouse_hide_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_mouse_hide
+   ...
+}
+
+{
+   mlx_mouse_show_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_mouse_show
+   ...
+}
+
+{
+   mlx_mouse_move_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_mouse_move
+   ...
+}
+
+# ============================================================================
+# MLX Initialization and Window Creation
+# ============================================================================
+
+{
+   mlx_init_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_init
+   ...
+}
+
+{
+   mlx_new_window_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_new_window
+   ...
+}
+
+{
+   mlx_new_image_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_new_image
+   ...
+}
+
+{
+   mlx_xpm_file_to_image_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:mlx_xpm_file_to_image
+   ...
+}
+
+# ============================================================================
+# X11/XLib Functions (used by MLX)
+# ============================================================================
+
+{
+   x11_display_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XOpenDisplay
+   ...
+}
+
+{
+   x11_locale_database_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_XlcCreateLocaleDataBase
+   ...
+}
+
+{
+   x11_locale_database_strdup_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   fun:malloc
+   fun:strdup
+   ...
+   fun:_XlcCreateLocaleDataBase
+   ...
+}
+
+{
+   x11_create_lc_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_XlcCreateLC
+   ...
+}
+
+{
+   x11_default_loader_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_XlcDefaultLoader
+   ...
+}
+
+{
+   x11_open_lc_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_XOpenLC
+   ...
+}
+
+{
+   x11_rm_init_parse_info_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_XrmInitParseInfo
+   ...
+}
+
+{
+   x11_intern_atom_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XInternAtom
+   ...
+}
+
+{
+   x11_create_window_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XCreateWindow
+   ...
+}
+
+{
+   x11_create_image_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XCreateImage
+   ...
+}
+
+{
+   x11_create_gc_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XCreateGC
+   ...
+}
+
+{
+   x11_load_query_font_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XLoadQueryFont
+   ...
+}
+
+{
+   x11_get_atom_name_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XGetAtomName
+   ...
+}
+
+{
+   x11_rm_get_string_database_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XrmGetStringDatabase
+   ...
+}
+
+# ============================================================================
+# XRender Extension (used for transparency/compositing)
+# ============================================================================
+
+{
+   xrender_find_visual_format_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XRenderFindVisualFormat
+   ...
+}
+
+{
+   xrender_query_version_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:XRenderQueryVersion
+   ...
+}
+
+# ============================================================================
+# Font/Freetype (used by X11)
+# ============================================================================
+
+{
+   fontconfig_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*/libfontconfig.so.*
+   ...
+}
+
+{
+   freetype_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*/libfreetype.so.*
+   ...
+}
+
+# ============================================================================
+# DL (Dynamic Linker) - loading shared libraries
+# ============================================================================
+
+{
+   dl_open_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_dl_open
+   ...
+}
+
+{
+   dl_init_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_dl_init
+   ...
+}
+
+# ============================================================================
+# Locale and Threading
+# ============================================================================
+
+{
+   locale_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:setlocale
+   ...
+}
+
+{
+   pthread_create_leak
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:pthread_create*
+   ...
+}
+
+# ============================================================================
+# Generic X11/XCB leaks
+# ============================================================================
+
+{
+   xcb_connect_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:xcb_connect
+   ...
+}
+
+{
+   xcb_wait_for_reply_leak
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:xcb_wait_for_reply
+   ...
+}
+
+# ============================================================================
+# Invalid reads/writes in X11 (usually safe to ignore)
+# ============================================================================
+
+{
+   x11_invalid_read
+   Memcheck:Addr4
+   ...
+   obj:*/libX11.so.*
+   ...
+}
+
+{
+   x11_invalid_write
+   Memcheck:Value8
+   ...
+   obj:*/libX11.so.*
+   ...
+}
+
+# ============================================================================
+# Conditional jumps based on uninitialized values (common in X11)
+# ============================================================================
+
+{
+   x11_conditional_jump
+   Memcheck:Cond
+   ...
+   obj:*/libX11.so.*
+   ...
+}
+
+{
+   xcb_conditional_jump
+   Memcheck:Cond
+   ...
+   obj:*/libxcb.so.*
+   ...
+}
