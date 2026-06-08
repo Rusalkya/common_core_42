@@ -1,0 +1,205 @@
+// ============================================
+// SCHEMA PRISMA - Base de données DrawTweet
+// ============================================
+// 
+// Projet: DrawTweet - Réseau social créatif
+// Équipe: wtohami-, clfouger, rgalmich, kjolly, akrings
+
+// Générateur du client Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Connexion à PostgreSQL
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum FriendStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FRIEND_REQUEST
+  FRIEND_ACCEPTED
+  FRIEND_REMOVED
+  POST_DELETED
+  MESSAGE
+  REPOST
+}
+
+// ============================================
+// MODÈLES
+// ============================================
+
+// Utilisateur
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  username  String   @unique
+  avatar    String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts              Post[]
+  comments           Comment[]
+  likes              Like[]
+  reposts            Repost[]
+  sentFriendRequests Friend[]       @relation("FriendSender")
+  receivedFriendRequests Friend[]   @relation("FriendReceiver")
+  sentMessages       Message[]      @relation("MessageSender")
+  receivedMessages   Message[]      @relation("MessageReceiver")
+  notifications      Notification[] @relation("NotificationUser")
+  sentNotifications  Notification[] @relation("NotificationFromUser")
+  globalMessages     GlobalMessage[]
+
+  @@index([email])
+  @@index([username])
+}
+
+// Publication (dessin)
+model Post {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  caption   String?
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments      Comment[]
+  likes         Like[]
+  reposts       Repost[]
+  notifications Notification[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// Commentaire
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([userId])
+}
+
+// Like (clé composite userId + postId)
+model Like {
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+// Repost (clé composite userId + postId)
+model Repost {
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+// Relation d'amitié
+model Friend {
+  id         Int          @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  status     FriendStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  // Relations
+  sender   User @relation("FriendSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("FriendReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([status])
+}
+
+// Message privé
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  senderId   Int
+  receiverId Int
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  // Relations
+  sender   User @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([createdAt])
+}
+
+// Message du chat global (fil en direct sur la homepage)
+model GlobalMessage {
+  id        Int      @id @default(autoincrement())
+  content   String
+  senderId  Int
+  username  String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+}
+
+// Notification
+model Notification {
+  id         Int              @id @default(autoincrement())
+  type       NotificationType
+  userId     Int
+  fromUserId Int
+  postId     Int?
+  read       Boolean          @default(false)
+  createdAt  DateTime         @default(now())
+
+  // Relations
+  user     User  @relation("NotificationUser", fields: [userId], references: [id], onDelete: Cascade)
+  fromUser User  @relation("NotificationFromUser", fields: [fromUserId], references: [id], onDelete: Cascade)
+  post     Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, read])
+  @@index([createdAt])
+}

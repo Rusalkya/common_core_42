@@ -1,0 +1,3 @@
+-- Intentionally left empty.
+-- This keeps database bootstrap production-like (schema only, no demo content).
+-- If needed, load demo data manually from seed.demo.sql.example.

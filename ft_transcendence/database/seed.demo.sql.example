@@ -1,0 +1,58 @@
+-- Demo password for all users: Password123!
+-- bcrypt hash generated with salt rounds 10
+-- $2b$10$8zeyu4flGGWrk4vX7mV5XehM8.G7t7B4jW0uS9h0Q9t4wdu2QwBja
+
+INSERT INTO "User" ("email", "password", "username", "bio", "avatar")
+VALUES
+	('alice@drawtweet.dev', '$2b$10$8zeyu4flGGWrk4vX7mV5XehM8.G7t7B4jW0uS9h0Q9t4wdu2QwBja', 'alice', 'Illustratrice pixel art', NULL),
+	('bob@drawtweet.dev', '$2b$10$8zeyu4flGGWrk4vX7mV5XehM8.G7t7B4jW0uS9h0Q9t4wdu2QwBja', 'bob', 'Fan de croquis rapides', NULL),
+	('charlie@drawtweet.dev', '$2b$10$8zeyu4flGGWrk4vX7mV5XehM8.G7t7B4jW0uS9h0Q9t4wdu2QwBja', 'charlie', 'Portraits en noir et blanc', NULL),
+	('dana@drawtweet.dev', '$2b$10$8zeyu4flGGWrk4vX7mV5XehM8.G7t7B4jW0uS9h0Q9t4wdu2QwBja', 'dana', 'Aquarelle digitale', NULL),
+	('eve@drawtweet.dev', '$2b$10$8zeyu4flGGWrk4vX7mV5XehM8.G7t7B4jW0uS9h0Q9t4wdu2QwBja', 'eve', 'UI artist et motion', NULL)
+ON CONFLICT ("email") DO NOTHING;
+
+INSERT INTO "Post" ("imageUrl", "caption", "userId")
+VALUES
+	('https://picsum.photos/seed/drawtweet-1/800/600', 'Premier sketch du matin', 1),
+	('https://picsum.photos/seed/drawtweet-2/800/600', 'Etude lumiere et ombres', 2),
+	('https://picsum.photos/seed/drawtweet-3/800/600', 'Concept perso cyberpunk', 3),
+	('https://picsum.photos/seed/drawtweet-4/800/600', 'Test palette chaude', 4)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO "Comment" ("content", "userId", "postId")
+VALUES
+	('Super compo, j''aime le contraste.', 2, 1),
+	('Belle ambiance generale.', 5, 3)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO "Like" ("userId", "postId")
+VALUES
+	(2, 1),
+	(3, 1),
+	(1, 2),
+	(4, 3),
+	(5, 3)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO "Friend" ("senderId", "receiverId", "status")
+VALUES
+	(1, 2, 'ACCEPTED'),
+	(2, 3, 'ACCEPTED'),
+	(4, 1, 'PENDING'),
+	(5, 3, 'PENDING')
+ON CONFLICT ("senderId", "receiverId") DO NOTHING;
+
+INSERT INTO "Message" ("content", "senderId", "receiverId", "read")
+VALUES
+	('Yo, tu peux review mon dernier post ?', 1, 2, true),
+	('Oui, je te fais un retour ce soir.', 2, 1, false),
+	('Ton concept cyberpunk est solide.', 5, 3, false)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO "Notification" ("type", "userId", "fromUserId", "postId", "read")
+VALUES
+	('LIKE', 1, 2, 1, false),
+	('COMMENT', 1, 3, 1, false),
+	('FRIEND_REQUEST', 1, 4, NULL, false),
+	('MESSAGE', 3, 5, NULL, false)
+ON CONFLICT DO NOTHING;

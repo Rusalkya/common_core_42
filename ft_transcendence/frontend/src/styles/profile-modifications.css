@@ -1,0 +1,365 @@
+/**
+ * @responsable clfouger
+ * STYLES - PAGE DE MODIFICATION DE PROFIL
+ */
+
+.profile-modifications {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  font-family: var(--font-family-primary);
+}
+
+.profile-modifications.loading,
+.profile-modifications.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.error-message {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background-color: #ff6b6b;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.profile-modifications .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+/* SIDEBAR */
+.profile-modifications .sidebar {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.profile-modifications .avatar-container {
+  margin-bottom: 1.5rem;
+}
+
+.profile-modifications .avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #667eea;
+}
+
+.profile-modifications .username {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 1rem 0 0.5rem;
+}
+
+.profile-modifications .bio {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  min-height: 3rem;
+}
+
+.profile-modifications .stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-modifications .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-modifications .stat-count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.profile-modifications .stat-label {
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+.profile-modifications .sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* MAIN CONTENT */
+.profile-modifications .main-content {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.profile-modifications .main-content h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-transform: lowercase;
+}
+
+/* ACTIONS BOX */
+.profile-modifications .actions-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-modifications .action-btn {
+  padding: 1rem 1.5rem;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.profile-modifications .action-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateX(5px);
+}
+
+.profile-modifications .action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.profile-modifications .action-btn.delete-btn {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.profile-modifications .action-btn.delete-btn:hover {
+  background: #ff6b6b;
+  color: white;
+}
+
+/* AVATAR LABEL */
+.avatar-label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+/* EDIT BIO SECTION */
+.profile-modifications .edit-bio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-modifications .edit-bio-section textarea {
+  padding: 1rem;
+  border: 2px solid #667eea;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.profile-modifications .edit-bio-section textarea:focus {
+  outline: none;
+  border-color: #764ba2;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.profile-modifications .bio-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* BUTTONS */
+.profile-modifications .btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-modifications .btn-profile,
+.profile-modifications .btn-save {
+  background: #667eea;
+  color: white;
+}
+
+.profile-modifications .btn-profile:hover,
+.profile-modifications .btn-save:hover {
+  background: #5568d3;
+}
+
+.profile-modifications .btn-messages {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.profile-modifications .btn-messages:hover {
+  background: #e0e0e0;
+}
+
+.profile-modifications .btn-edit {
+  background: #667eea;
+  color: white;
+}
+
+.profile-modifications .btn-edit:hover {
+  background: #5568d3;
+}
+
+.profile-modifications .btn-cancel {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.profile-modifications .btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.profile-modifications .btn-danger {
+  background: #ff6b6b;
+  color: white;
+}
+
+.profile-modifications .btn-danger:hover {
+  background: #ff5252;
+}
+
+.profile-modifications .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.modal p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .profile-modifications .container {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-modifications .main-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-modifications .avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .bio-actions {
+    flex-direction: column;
+  }
+
+  .profile-modifications .btn {
+    width: 100%;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+}

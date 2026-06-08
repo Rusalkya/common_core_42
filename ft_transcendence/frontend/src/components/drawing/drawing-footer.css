@@ -1,0 +1,186 @@
+.drawing-footer-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.btn-gribouiller {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 3px solid #000;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-gribouiller:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.btn-gribouiller:active {
+  transform: scale(0.95);
+}
+
+/* Canvas Overlay */
+.drawing-canvas-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  cursor: crosshair;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Controls Container */
+.drawing-overlay-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  background-color: white;
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 15px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  flex-wrap: wrap;
+  max-width: 90vw;
+  justify-content: center;
+}
+
+/* Colors Palette */
+.colors-palette {
+  display: flex;
+  gap: 8px;
+}
+
+.color-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-btn.active {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Size Control */
+.size-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.size-control label {
+  font-weight: 600;
+  color: #000;
+  font-size: 14px;
+}
+
+.size-slider {
+  width: 120px;
+  height: 6px;
+  cursor: pointer;
+}
+
+.size-control span {
+  font-weight: 600;
+  color: #000;
+  min-width: 35px;
+  font-size: 14px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-action {
+  padding: 8px 16px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #000;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-action:active {
+  transform: translateY(0);
+}
+
+.btn-clear {
+  background-color: #FFE5E5;
+}
+
+.btn-clear:hover {
+  background-color: #FFD0D0;
+}
+
+.btn-save {
+  background-color: #E5F3FF;
+}
+
+.btn-save:hover {
+  background-color: #D0E8FF;
+}
+
+.btn-close {
+  background-color: #F5F5F5;
+}
+
+.btn-close:hover {
+  background-color: #E0E0E0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .drawing-overlay-controls {
+    bottom: 10px;
+    padding: 12px 15px;
+    gap: 12px;
+  }
+
+  .btn-gribouiller {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .size-slider {
+    width: 80px;
+  }
+
+  .btn-action {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}

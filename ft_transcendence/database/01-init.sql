@@ -1,0 +1,4 @@
+-- Executed automatically by postgres image on first bootstrap.
+-- Keep this file as a placeholder only.
+-- Schema is created by schema.sql.
+-- Demo data is disabled by default in seed.sql.

@@ -1,0 +1,22 @@
+# Responsable: kjolly
+# Role: DevOps / Project Manager
+#
+# DASHBOARD.YML - Provisioning des dashboards Grafana
+#
+# Ce que tu dois faire :
+# - Configurer le provider de dashboards (fichier JSON)
+# - Pointer vers le dossier contenant les fichiers JSON de dashboards
+# - Les dashboards doivent montrer : uptime du backend, nombre de requêtes, latence, erreurs
+# - Optionnel : dashboard pour la base de données (connexions, queries)
+apiVersion: 1
+
+providers:
+  - name: default
+    orgId: 1
+    folder: Transcendance
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards #? dossier a monter dans le conteneur

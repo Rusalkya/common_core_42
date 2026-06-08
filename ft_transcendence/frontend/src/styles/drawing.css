@@ -1,0 +1,302 @@
+/**
+ * @responsable clfouger
+ * STYLES POUR LE SYSTÈME DE DESSIN
+ * 
+ * Canvas, outils, barre d'outils, modal de dessin
+ * À remplacer avec tes dessins en fin de projet
+ */
+
+/* ========== CANVAS ========== */
+.canvas {
+  display: block;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-border);
+  cursor: crosshair;
+  user-select: none;
+  touch-action: none;
+}
+
+.canvas:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* ========== DRAWING MODAL ========== */
+.drawing-modal {
+  width: 90vw;
+  max-width: 1000px;
+  height: 90vh;
+  max-height: 800px;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawing-container {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  flex: 1;
+  min-height: 0;
+}
+
+.drawing-canvas-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  min-width: 0;
+}
+
+.drawing-canvas {
+  flex: 1;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+  overflow: hidden;
+}
+
+.drawing-canvas canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ========== TOOLBAR ========== */
+.toolbar {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-secondary);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding-right: var(--spacing-md);
+  border-right: var(--border-width) solid var(--color-border);
+}
+
+.toolbar-group:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.toolbar-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ========== DRAWING TOOLS ========== */
+.tool-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-primary);
+  border: var(--border-width) solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-lg);
+}
+
+.tool-button:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.tool-button.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+/* ========== COLOR PICKER ========== */
+.color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.color-input {
+  width: 40px;
+  height: 40px;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  padding: 2px;
+}
+
+.color-preview {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--border-radius-md);
+  border: var(--border-width) solid var(--color-border);
+}
+
+.color-presets {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.color-preset {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--border-radius-sm);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.color-preset:hover,
+.color-preset.active {
+  border-color: var(--color-text-primary);
+  transform: scale(1.1);
+}
+
+/* ========== BRUSH SETTINGS ========== */
+.brush-settings {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.size-slider {
+  width: 120px;
+}
+
+.size-value {
+  min-width: 30px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ========== DRAWING SIDEBAR ========== */
+.drawing-sidebar {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: 0;
+}
+
+.drawing-preview {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.drawing-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drawing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.drawing-actions .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ========== DRAWING HISTORY ========== */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.history-item {
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.history-item:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.history-item.current {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ========== DRAWING RESPONSE MESSAGE ========== */
+.drawing-response {
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  animation: slideInUp var(--transition-normal);
+}
+
+.drawing-response-success {
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.drawing-response-error {
+  background-color: var(--color-danger);
+  color: var(--color-white);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .drawing-modal {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .drawing-container {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .drawing-sidebar {
+    width: 100%;
+    flex-direction: row;
+    height: auto;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar-group {
+    border-right: none;
+    border-bottom: var(--border-width) solid var(--color-border);
+    padding-right: 0;
+    padding-bottom: var(--spacing-md);
+    width: 100%;
+  }
+
+  .toolbar-group:last-child {
+    border-bottom: none;
+  }
+}

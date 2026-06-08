@@ -1,0 +1,164 @@
+# Responsable: kjolly
+# Role: DevOps / Project Manager
+#
+# DOCKER-COMPOSE.YML - Orchestration de tous les services
+#
+# Ce que tu dois faire :
+#! - Définir le service "frontend" (build depuis ./frontend, port 5173)
+#! - Définir le service "backend" (build depuis ./backend, port 3001, dépend de db)
+#! - Définir le service "db" (image postgres:16, volume persistant, variables d'env)
+#! - Définir le service "nginx" (image nginx, port 80/443, reverse proxy)
+#! - Définir le service "prometheus" (monitoring, port 9090)
+# - Définir le service "grafana" (dashboards, port 3002)
+#! - Créer le réseau Docker commun à tous les services
+#! - Configurer les volumes persistants (données PostgreSQL, uploads)
+#! - Utiliser les fichiers .env pour les variables sensibles
+#! - S'assurer que les services démarrent dans le bon ordre (depends_on)
+#! - Configurer les healthchecks pour chaque service
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: unless-stopped
+    networks:
+      - drawtweet
+    env_file:
+      - ./frontend/.env
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost/ || exit 1"]
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+      #? fais un acces a / du serveur ngninx du front, verifie que REACT/NGINX sert la page d'acceuil
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    networks:
+      - drawtweet
+    env_file:
+      - ./backend/.env
+    volumes:
+      - uploads-data:/app/uploads
+    #? gerer les uploads via les volumes
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3001/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+      #? verifie que nest demarre, que le routing marche et que le serveur repond
+
+
+  db:
+    # MODIFIÉ: image complète pour éviter le prompt de sélection de registry avec podman-compose
+    image: docker.io/library/postgres:16-alpine
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    networks:
+      - drawtweet
+    env_file:
+      - ./.env
+    volumes:
+      # Format : [host_path]:[container_path]:[mode]
+      - ./database/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/02-schema.sql:/docker-entrypoint-initdb.d/02-schema.sql:ro
+      - ./database/03-seed.sql:/docker-entrypoint-initdb.d/03-seed.sql:ro
+      - db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+      #? verifie que postgresql accepte les connexions
+
+  nginx:
+    image: docker.io/library/nginx:1.30.0-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+    - "8080:80"
+    - "8443:443"
+    networks:
+      - drawtweet
+    depends_on:
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    volumes:
+      - uploads-data:/app/uploads
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+      #? le test fait un acces au / du reverse proxy, verifie que nginx demarre et repond
+
+  prometheus:
+    image: docker.io/prom/prometheus:v3.11.3
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    networks:
+      - drawtweet
+    depends_on:
+      - backend
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  grafana:
+    image: docker.io/grafana/grafana:13.0.1
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      # MODIFIÉ: 3000/3002 occupés par dev, Grafana sur 3003
+      - "3003:3000"
+    networks:
+      - drawtweet
+    env_file:
+      - ./.env
+    volumes:
+      - ./monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3003/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  db-volume:
+  uploads-data:
+  prometheus-data:
+  grafana-data:
+#? volume standards stocker en local, gerer par le docker daemon a voir avec "docker volumes ls"
+#! bind mounts moins adapte a la prod et gérer par nous meme, mais peut être stocker n'importe où sur la machine
+
+networks:
+  drawtweet:
+    driver: bridge

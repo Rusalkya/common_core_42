@@ -1,0 +1,32 @@
+# Responsable: kjolly
+# Role: DevOps / Project Manager
+#
+# PROMETHEUS.YML - Configuration de Prometheus (monitoring)
+#
+# Ce que tu dois faire :
+# - Configurer le scraping du endpoint /health ou /metrics du backend
+# - Définir l'intervalle de scraping (ex: 15s)
+# - Ajouter les targets : backend (port 3001), node-exporter si ajouté
+# - Configurer les labels pour identifier les services
+# - Optionnel : ajouter des alerting rules (backend down, latence élevée)
+
+#!! creer un dossier metric pour recuperer les metriques du back
+#? run dans un container : podman run --rm --name prometheus-local -p 9090:9090 -v "$PWD/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro" docker.io/prom/prometheus:latest --config.file=/etc/prometheus/prometheus.yml --web.listen-address=0.0.0.0:9090
+
+global: # parametre generaux appliquer a tous les "jobs"
+  scrape_interval: 15s #? recupere les donnes toutes les 15s
+
+rule_files: [] # specifie les regles d'alertes
+
+scrape_configs: # les cibles a surveiller
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090'] #? il trouve en localhost mais pas si je mets prometheus
+
+  - job_name: 'backend' #! un job = une cible
+    static_configs: #? configuration des targets
+      - targets: ['backend:3001'] #? URL du backend dans docker
+        labels:
+          service: 'backend'
+          environment: 'docker'
+    metrics_path: '/api/metrics' #? Endpoint Prometheus exposé par MetricsModule

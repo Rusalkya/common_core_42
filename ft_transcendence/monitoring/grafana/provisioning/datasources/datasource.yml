@@ -1,0 +1,21 @@
+# Responsable: kjolly
+# Role: DevOps / Project Manager
+#
+# DATASOURCE.YML - Configuration de la source de données Grafana
+#
+# Ce que tu dois faire :
+# - Configurer Prometheus comme datasource par défaut
+# - URL : http://prometheus:9090 (nom du service Docker)
+# - Type : prometheus
+# - Activer l'accès direct (proxy mode)
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+
+# https://grafana.com/docs/grafana/latest/administration/provisioning/
